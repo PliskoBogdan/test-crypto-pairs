@@ -12,6 +12,7 @@
       </div>
 
       <SelectedPairsList @select-pair="onSelectPair" />
+      <CandlesChart :symbol="activeSymbol" />
     </section>
   </main>
 </template>
@@ -19,6 +20,7 @@
 <script setup lang="ts">
 import PairsSelector from '@/components/PairsSelector.vue'
 import SelectedPairsList from '@/components/SelectedPairsList.vue'
+import CandlesChart from '@/components/CandlesChart.vue'
 
 const pairsStore = usePairsStore()
 const { loading: pairsLoading, error: pairsError, loadPairs } = usePairs()
