@@ -6,13 +6,14 @@ export default defineEventHandler(async (): Promise<any> => {
     .map((s: any) => {
       const base = s.baseAsset;
       const quote = s.quoteAsset;
+
       return {
         id: s.symbol,
         symbol: s.symbol,
         baseAsset: base,
         quoteAsset: quote,
         displayName: `${base}/${quote}`,
-        iconUrl: `https://cryptoicons.org/api/icon/${base.toLowerCase()}/64`,
+        iconUrl: `https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/${base.toLowerCase()}.png`,
       };
     });
 
