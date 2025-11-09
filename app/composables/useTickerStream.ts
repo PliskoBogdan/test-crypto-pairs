@@ -77,7 +77,7 @@ export function useTickerStream() {
     };
 
     socket.onclose = () => {
-      // Автореконнект, если есть выбранные пары
+
       if (pairsStore.selectedSymbols.length > 0) {
         reconnectTimeout.value = setTimeout(() => {
           connect();

@@ -43,13 +43,19 @@ import PairCard from "./PairCard.vue";
 const pairsStore = usePairsStore();
 
 const pairs = computed(() => pairsStore.selectedPairs);
-const { list, containerProps, wrapperProps } = useVirtualList(pairs, { itemHeight: 118 })
+
+// virtual scroll
+const { list, containerProps, wrapperProps } = useVirtualList(pairs, { itemHeight: 118 });
+const visibleSymbols = computed(() => list.value.map(i => i.data.symbol));
+watch(visibleSymbols, (val) => {
+  pairsStore.setVisibleSymbols(val);
+});
+
 const tickers = computed<Record<string, TickerData>>(() => pairsStore.tickers);
 const status = computed<ConnectionStatus>(
   () => pairsStore.tickerConnectionStatus
 );
 const error = computed(() => pairsStore.tickerError);
-
 
 const statusData: Record<ConnectionStatus, { label: string; class: string }> = {
   connecting: { label: "connecting", class: "text-amber-500" },

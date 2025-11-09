@@ -22,6 +22,7 @@ export const usePairsStore = defineStore("pairs", () => {
   const allPairs = ref<TradingPair[]>([]);
   const selectedSymbols = ref<string[]>([]);
   const tickers = reactive<Record<string, TickerData>>({});
+  const visibleSymbols = ref<string[]>([]);
 
   const tickerConnectionStatus = ref<ConnectionStatus>("idle");
   const tickerError = ref<string | null>(null);
@@ -32,6 +33,10 @@ export const usePairsStore = defineStore("pairs", () => {
 
   function setAllPairs(pairs: TradingPair[]) {
     allPairs.value = pairs;
+  }
+
+  function setVisibleSymbols(symbols: string[]) {
+    visibleSymbols.value = symbols
   }
 
   function toggleSymbol(symbol: string) {
@@ -55,6 +60,12 @@ export const usePairsStore = defineStore("pairs", () => {
     lastPrice: number,
     priceChangePercent: number
   ) {
+
+    // skip rerender process if pair card is not in the POV
+    if (!visibleSymbols.value.includes(symbol)) {
+      return;
+    }
+
     const prev = tickers[symbol]?.lastPrice;
     tickers[symbol] = {
       symbol,
@@ -108,6 +119,7 @@ export const usePairsStore = defineStore("pairs", () => {
     tickers,
     tickerConnectionStatus,
     tickerError,
+    visibleSymbols,
     setAllPairs,
     toggleSymbol,
     removeSymbol,
@@ -115,6 +127,7 @@ export const usePairsStore = defineStore("pairs", () => {
     updateTicker,
     setTickerConnectionStatus,
     setTickerError,
+    setVisibleSymbols,
     loadFromStorage,
   };
 });
