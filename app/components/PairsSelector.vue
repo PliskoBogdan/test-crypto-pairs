@@ -4,6 +4,7 @@
 
     <div class="relative flex-1" ref="wrapper">
       <input
+        ref="inputRef"
         v-model="search"
         type="text"
         placeholder="Search pair (e.g. BTC)"
@@ -83,6 +84,7 @@ const pairsStore = usePairsStore();
 
 const onImgError = useImgFallback()
 
+const inputRef = ref<HTMLInputElement | null>(null);
 const search = ref<string>("");
 const isListHidden = ref<boolean>(true);
 const wrapper = ref<HTMLElement | null>(null);
@@ -130,6 +132,7 @@ const handleEsc = (event: KeyboardEvent) => {
   }
 
   isListHidden.value = true;
+  inputRef.value?.blur();
 };
 
 const handleFocus = () => {
