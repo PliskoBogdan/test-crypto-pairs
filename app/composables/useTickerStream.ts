@@ -1,5 +1,6 @@
 export function useTickerStream() {
   const pairsStore = usePairsStore();
+  const config = useRuntimeConfig();
   const ws = ref<WebSocket | null>(null);
   const reconnectTimeout = ref<ReturnType<typeof setTimeout> | null>(null);
 
@@ -12,7 +13,7 @@ export function useTickerStream() {
 
     const streams = symbols.map((s) => `${s.toLowerCase()}@ticker`).join("/");
 
-    return `wss://stream.binance.com:9443/stream?streams=${streams}`;
+    return `${config.public.tickerStreamBaseUrl}?streams=${streams}`;
   };
 
   const closeWs = () => {

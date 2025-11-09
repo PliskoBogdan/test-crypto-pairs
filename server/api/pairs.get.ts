@@ -1,5 +1,6 @@
 export default defineEventHandler(async (): Promise<any> => {
-  const data = await $fetch<any>("https://api.binance.com/api/v3/exchangeInfo");
+  const config = useRuntimeConfig();
+  const data = await $fetch<any>(config.public.pairsBaseUrl);
 
   const symbols = data.symbols
     .filter((s: any) => s.status === "TRADING" && s.quoteAsset === "USDT")
@@ -13,7 +14,7 @@ export default defineEventHandler(async (): Promise<any> => {
         baseAsset: base,
         quoteAsset: quote,
         displayName: `${base}/${quote}`,
-        iconUrl: `https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/${base.toLowerCase()}.png`,
+        iconUrl: `${config.public.pairsIconBaseUrl}${base.toLowerCase()}.png`,
       };
     });
 

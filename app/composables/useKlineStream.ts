@@ -9,6 +9,8 @@ interface Candle {
 const CANDLES_LIMIT = 200;
 
 export function useKlineStream(symbol: Ref<string | null>) {
+  const config = useRuntimeConfig();
+
   const candles = ref<Candle[]>([]);
   const ws = ref<WebSocket | null>(null);
 
@@ -31,7 +33,7 @@ export function useKlineStream(symbol: Ref<string | null>) {
     };
 
     const streamSymbol = symbol.value.toLowerCase();
-    const url = `wss://stream.binance.com:9443/ws/${streamSymbol}@kline_1m`;
+    const url = `${config.public.klainBaseUrl}${streamSymbol}@kline_1m`;
     const socket = new WebSocket(url);
     ws.value = socket;
 

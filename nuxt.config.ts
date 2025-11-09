@@ -10,6 +10,14 @@ export default defineNuxtConfig({
   imports: {
     autoImport: true,
   },
+  runtimeConfig: {
+    public: {
+      tickerStreamBaseUrl: process.env.NUXT_TICKER_STREAM_BASEURL,
+      pairsIconBaseUrl: process.env.NUXT_PAIRS_ICONS_BASEURL,
+      pairsBaseUrl: process.env.NUXT_PAIRS_BASEURL,
+      klainBaseUrl: process.env.NUXT_KLINE_STREAM_BASEURL,
+    }
+  },
   vite: {
     plugins: [
       tailwindcss(),
