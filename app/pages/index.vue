@@ -1,7 +1,7 @@
 <template>
   <main>
     <section class="rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-4 md:p-6">
-      <PairsSelector v-once/>
+      <PairsSelector v-once @removeAll="onRemoveAllSelectedPairs"/>
 
       <div class="mt-2 text-xs text-gray-500 flex items-center gap-3">
         <span v-if="pairsLoading">Loading pairs...</span>
@@ -30,6 +30,11 @@ const activeSymbol = ref<string | null>(null)
 
 const onSelectPair = (symbol: string) => {
   activeSymbol.value = symbol
+}
+
+const onRemoveAllSelectedPairs = () => {
+  activeSymbol.value = null;
+  pairsStore.setSelectedSymbols([]);
 }
 
 onMounted(async () => {

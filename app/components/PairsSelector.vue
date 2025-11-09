@@ -66,13 +66,16 @@
     </div>
 
     <ul class="flex flex-wrap gap-2 mt-2">
+      <li v-if="selectedSymbols.length">
+        <button @click="$emit('removeAll')" class="cursor-pointer">Clear All</button>
+      </li>
       <li
         v-for="symbol in selectedSymbols"
         :key="symbol"
         class="inline-flex items-center gap-1 rounded-full bg-emerald-100 dark:bg-emerald-900/50 px-3 py-1 text-xs text-emerald-800 dark:text-emerald-100"
       >
         <span>{{ symbol }}</span>
-        <button @click="remove(symbol)" :aria-label="`remove ${symbol} from selected`">&times;</button>
+        <button @click="remove(symbol)" :aria-label="`remove ${symbol} from selected`" class="cursor-pointer">&times;</button>
       </li>
     </ul>
   </div>
@@ -80,6 +83,10 @@
 
 <script setup lang="ts">
 import { useVirtualList } from '@vueuse/core'
+
+defineEmits<{
+  (e: "removeAll"): void;
+}>();
 
 const pairsStore = usePairsStore();
 
