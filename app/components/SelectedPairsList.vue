@@ -5,11 +5,11 @@
       
 
       <div>
-        <span class="text-xs text-gray-500">
-          WS: <span :class="statusColor">{{ statusLabel }}</span>
-        </span>
         <span v-if="error" class="text-xs text-red-500">
           {{ error }}
+        </span>
+        <span v-else class="text-xs text-gray-500">
+          <span :class="statusColor">WS: {{ statusLabel }}</span>
         </span>
       </div>
     </div>
@@ -25,6 +25,7 @@
         :key="data.symbol"
         :pair="data"
         :ticker="tickers[data.symbol]"
+        :isActive="activeSymbol === data.symbol"
         @remove="onRemove"
         @select="onSelect"
       />
@@ -39,6 +40,10 @@ import { useVirtualList } from '@vueuse/core'
 import type { TickerData, ConnectionStatus } from "@/stores/usePairsStore";
 
 import PairCard from "./PairCard.vue";
+
+defineProps<{
+  activeSymbol: string | null;
+}>()
 
 const pairsStore = usePairsStore();
 

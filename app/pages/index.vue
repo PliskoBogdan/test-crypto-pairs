@@ -11,7 +11,7 @@
         </span>
       </div>
 
-      <SelectedPairsList @select-pair="onSelectPair" />
+      <SelectedPairsList @select-pair="onSelectPair" :activeSymbol="activeSymbol" />
       <CandlesChart :symbol="activeSymbol" />
     </section>
   </main>

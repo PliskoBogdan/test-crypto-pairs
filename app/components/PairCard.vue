@@ -1,6 +1,7 @@
 <template>
   <li
-    class="flex flex-col gap-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-3 text-sm cursor-pointer hover:border-emerald-400 transition"
+    class="flex flex-col gap-2 rounded-lg border bg-white dark:bg-gray-900 p-3 text-sm cursor-pointer hover:border-emerald-400 transition"
+    :class="isActive ? 'border-emerald-400' : 'border-gray-200 dark:border-gray-700'"
     @click="$emit('select', pair.symbol)"
   >
     <div class="flex items-center gap-2">
@@ -82,9 +83,10 @@ import IconArrowDown from '@/assets/icons/arrow.svg';
 
 const onImgError = useImgFallback()
 
-const props = defineProps<{
+defineProps<{
   pair: TradingPair;
   ticker?: TickerData;
+  isActive?: boolean;
 }>();
 
 defineEmits<{
