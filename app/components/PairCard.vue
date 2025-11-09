@@ -9,6 +9,9 @@
         :src="pair.iconUrl"
         :alt="pair.displayName"
         class="h-8 w-8 rounded-full object-cover"
+        fetchpriority="high"
+        decoding="async"
+        loading="lazy"
         @error="onImgError($event)"
       />
       <div>

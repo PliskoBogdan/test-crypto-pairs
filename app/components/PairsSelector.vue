@@ -27,7 +27,7 @@
 
         <div v-else v-bind="wrapperProps">
           <li
-            v-for="{ data } in list"
+            v-for="{ data, index } in list"
             :key="data.symbol"
             tabindex="0"
             class="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
@@ -38,6 +38,7 @@
             <img
               :src="data.iconUrl"
               :alt="data.displayName"
+              :fetchpriority=" index < 5 ? 'low' : 'high'"
               class="h-5 w-5 rounded-full object-cover"
               decoding="async"
               loading="lazy"
@@ -57,23 +58,23 @@
       <button
         @click="clearSearch"
         class="absolute right-0 top-[4px] flex w-10 items-center justify-center text-lg cursor-pointer"
+        aria-label="clear search input"
         tabindex="2"
       >
         &times;
       </button>
     </div>
 
-    <div class="flex flex-wrap gap-2 mt-2">
-      <button
+    <ul class="flex flex-wrap gap-2 mt-2">
+      <li
         v-for="symbol in selectedSymbols"
         :key="symbol"
         class="inline-flex items-center gap-1 rounded-full bg-emerald-100 dark:bg-emerald-900/50 px-3 py-1 text-xs text-emerald-800 dark:text-emerald-100"
-        @click="remove(symbol)"
       >
         <span>{{ symbol }}</span>
-        <span class="cursor-pointer">&times;</span>
-      </button>
-    </div>
+        <button @click="remove(symbol)" :aria-label="`remove ${symbol} from selected`">&times;</button>
+      </li>
+    </ul>
   </div>
 </template>
 
