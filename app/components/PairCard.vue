@@ -105,11 +105,14 @@ defineEmits<{
 }
 
 .animated-dot {
+  display: block;
   width: 12px;
   height: 12px;
   margin-top: 6px;
+
   background-color: #66666647;
   border-radius: 50%;
+
   animation: pulse-dot 1.2s ease-in-out infinite;
 }
 </style>
