@@ -18,31 +18,38 @@
       No pairs selected yet.
     </div>
 
-    <div class="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+    <ul v-else v-bind="containerProps" class="max-h-72 gap-3 overflow-y-auto">
+      <div v-bind="wrapperProps">
       <PairCard
-        v-for="pair in pairs"
-        :key="pair.symbol"
-        :pair="pair"
-        :ticker="tickers[pair.symbol]"
+        v-for="{ data } in list"
+        :key="data.symbol"
+        :pair="data"
+        :ticker="tickers[data.symbol]"
         @remove="onRemove"
         @select="onSelect"
       />
     </div>
+    </ul>
   </div>
 </template>
 
 <script setup lang="ts">
-import PairCard from "./PairCard.vue";
+import { useVirtualList } from '@vueuse/core'
+
 import type { TickerData, ConnectionStatus } from "@/stores/usePairsStore";
+
+import PairCard from "./PairCard.vue";
 
 const pairsStore = usePairsStore();
 
 const pairs = computed(() => pairsStore.selectedPairs);
+const { list, containerProps, wrapperProps } = useVirtualList(pairs, { itemHeight: 118 })
 const tickers = computed<Record<string, TickerData>>(() => pairsStore.tickers);
 const status = computed<ConnectionStatus>(
   () => pairsStore.tickerConnectionStatus
 );
 const error = computed(() => pairsStore.tickerError);
+
 
 const statusData: Record<ConnectionStatus, { label: string; class: string }> = {
   connecting: { label: "connecting", class: "text-amber-500" },

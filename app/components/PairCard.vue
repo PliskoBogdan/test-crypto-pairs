@@ -1,5 +1,5 @@
 <template>
-  <div
+  <li
     class="flex flex-col gap-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-3 text-sm cursor-pointer hover:border-emerald-400 transition"
     @click="$emit('select', pair.symbol)"
   >
@@ -71,7 +71,7 @@
         <span v-else class="animated-dot"></span>
       </div>
     </div>
-  </div>
+  </li>
 </template>
 
 <script setup lang="ts">
