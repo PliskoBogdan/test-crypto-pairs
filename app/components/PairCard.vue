@@ -58,13 +58,13 @@
             v-if="ticker.lastPrice > ticker.prevPrice"
             class="text-emerald-500"
           >
-            <img src="../assets/icons/arrow.svg" alt="price down" loading="lazy">
+            <IconArrowDown />
           </span>
           <span
             v-else-if="ticker.lastPrice < ticker.prevPrice"
             class="text-red-500"
           >
-            <img src="../assets/icons/arrow-up.svg" alt="price up" loading="lazy">
+            <IconArrowUp />
           </span>
           <span v-else class="animated-dot"></span>
         </span>
@@ -77,6 +77,8 @@
 <script setup lang="ts">
 import type { TradingPair, TickerData } from "@/stores/usePairsStore";
 import IconTrashBlank from "@/assets/icons/trash-blank.svg";
+import IconArrowUp from '@/assets/icons/arrow-up.svg';
+import IconArrowDown from '@/assets/icons/arrow.svg';
 
 const onImgError = useImgFallback()
 
