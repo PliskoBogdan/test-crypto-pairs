@@ -13,41 +13,44 @@
       />
 
       <ul
-        class="absolute z-10 mt-1 max-h-64 w-full overflow-y-auto rounded-md border bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 shadow"
+        v-bind="containerProps"
+        class="max-h-64 overflow-y-auto p-2 bg-gray-500/5 rounded"
         :class="{ hidden: isListHidden }"
       >
         <div
-          v-if="filteredPairs.length === 0"
+          v-if="!filteredPairs.length"
           class="px-3 py-2 text-xs text-gray-500"
         >
           No pairs
         </div>
 
-        <li
-          v-for="pair in filteredPairs"
-          :key="pair.symbol"
-          tabindex="0"
-          class="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
-          :aria-label="pair.displayName"
-          @click="toggle(pair.symbol)"
-          @keydown.enter="toggle(pair.symbol)"
-        >
-          <img
-            :src="pair.iconUrl"
-            :alt="pair.displayName"
-            class="h-5 w-5 rounded-full object-cover"
-            decoding="async"
-            loading="lazy"
-            @error="onImgError($event)"
-          />
-          <span class="font-medium">{{ pair.displayName }}</span>
-          <span
-            v-if="selectedSymbols.includes(pair.symbol)"
-            class="ml-auto text-xs text-emerald-500"
+        <div v-else v-bind="wrapperProps">
+          <li
+            v-for="{ data } in list"
+            :key="data.symbol"
+            tabindex="0"
+            class="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
+            :aria-label="data.displayName"
+            @click="toggle(data.symbol)"
+            @keydown.enter="toggle(data.symbol)"
           >
-            <img src="../assets/icons/check.svg" alt="check status" loading="lazy">
-          </span>
-        </li>
+            <img
+              :src="data.iconUrl"
+              :alt="data.displayName"
+              class="h-5 w-5 rounded-full object-cover"
+              decoding="async"
+              loading="lazy"
+              @error="onImgError($event)"
+            />
+            <span class="font-medium">{{ data.displayName }}</span>
+            <span
+              v-if="selectedSymbols.includes(data.symbol)"
+              class="ml-auto text-xs text-emerald-500"
+            >
+              <img src="../assets/icons/check.svg" alt="check status" loading="lazy">
+            </span>
+          </li>
+        </div>
       </ul>
 
       <button
@@ -74,6 +77,8 @@
 </template>
 
 <script setup lang="ts">
+import { useVirtualList } from '@vueuse/core'
+
 const pairsStore = usePairsStore();
 
 const onImgError = useImgFallback()
@@ -96,6 +101,8 @@ const filteredPairs = computed(() => {
       p.symbol.toLowerCase().includes(term)
   );
 });
+
+const { list, containerProps, wrapperProps } = useVirtualList(filteredPairs, { itemHeight: 36 })
 
 const toggle = (symbol: string) => {
   pairsStore.toggleSymbol(symbol);
